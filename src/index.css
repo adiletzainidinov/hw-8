@@ -1,0 +1,25 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins";
+}
+.timer-container {
+  position: relative;
+}
+
+.progress-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 5px;
+  background-color: #4287f5;
+}
+
+.time-remaining {
+  margin-top: 10px;
+}
+
+.button-container {
+  margin-top: 20px;
+}
