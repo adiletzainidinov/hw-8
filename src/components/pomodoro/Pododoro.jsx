@@ -14,9 +14,15 @@ export const Pomodoro = () => {
   const modalHandler = () => {
     setModal((prevState) => !prevState);
   };
+
+  function getTimeValues(data) {
+    console.log(data);
+  }
   return (
     <Container>
-      {modal && <PomodoroForm closeModal={modalHandler} />}
+      {modal && (
+        <PomodoroForm closeModal={modalHandler} onSubmit={getTimeValues} />
+      )}
       <StyledTitle>Pomodoro</StyledTitle>
       <StyledDiv>
         <PomodoroMode />
