@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
-const Button = ({ children, onClick, icon }) => {
+const Button = ({ children, onClick, icon, ...rest }) => {
   return (
-    <StyledButton onClick={onClick} icon={icon}>
+    <StyledButton onClick={onClick} icon={icon} {...rest}>
       {children}
     </StyledButton>
   );

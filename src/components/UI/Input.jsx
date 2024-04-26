@@ -1,14 +1,18 @@
+import { forwardRef } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
-export const FormInput = ({ labelText, value, onChange, ...rest }) => {
+export const FormInput = forwardRef((props, ref) => {
+  const { labelText, value, onChange, ...rest } = props;
   return (
     <StyledFormDiv>
       <StlyedLabel>{labelText}</StlyedLabel>
-      <StyledInput value={value} onChange={onChange} {...rest} />
+      <StyledInput ref={ref} value={value} onChange={onChange} {...rest} />
     </StyledFormDiv>
   );
-};
+});
+
+FormInput.displayName = "FormInput";
 
 FormInput.propTypes = {
   labelText: PropTypes.string.isRequired,
