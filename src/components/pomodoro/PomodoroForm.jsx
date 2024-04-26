@@ -38,9 +38,6 @@ const PomodoroForm = ({ closeModal, onSubmit }) => {
           <StyledInput labelText="Focus" ref={focusRef} />
           <StyledInput labelText="Break" ref={breakRef} />
           <StyledInput labelText="Rest" ref={restRef} />
-          {/* <input ref={focusRef} />
-          <input ref={breakRef} />
-          <input ref={restRef} /> */}
         </StyledDiv>
         <div>
           <Button type="submit" onClick={onSubmitHandler}>
