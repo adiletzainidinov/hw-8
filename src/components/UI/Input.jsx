@@ -3,11 +3,17 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 
 export const FormInput = forwardRef((props, ref) => {
-  const { labelText, value, onChange, ...rest } = props;
+  const { type, labelText, value, onChange, ...rest } = props;
   return (
     <StyledFormDiv>
       <StlyedLabel>{labelText}</StlyedLabel>
-      <StyledInput ref={ref} value={value} onChange={onChange} {...rest} />
+      <StyledInput
+        ref={ref}
+        value={value}
+        onChange={onChange}
+        type={type}
+        {...rest}
+      />
     </StyledFormDiv>
   );
 });
@@ -18,6 +24,7 @@ FormInput.propTypes = {
   labelText: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func,
+  type: PropTypes.type,
 };
 
 const StlyedLabel = styled.label`
