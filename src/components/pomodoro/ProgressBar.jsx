@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 const ProgressBar = forwardRef((props, ref) => {
   return (
     <ProgressBarWrapper>
-      <ProgressDiv ref={ref} style={{ width: props.width }} />
+      <ProgressDiv ref={ref} />
     </ProgressBarWrapper>
   );
 });

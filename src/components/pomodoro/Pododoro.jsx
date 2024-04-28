@@ -6,18 +6,64 @@ import ProgressBar from "./ProgressBar";
 import TimeView from "../UI/TimeView";
 import Button from "../UI/Button";
 import PomodoroForm from "./PomodoroForm";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 export const Pomodoro = () => {
   const [modal, setModal] = useState(false);
+  const [time, setTime] = useState(5 * 60);
+  const [isActive, setActive] = useState(false);
+  const progressBar = useRef();
+
+  let intervalId = useRef(null);
+  const [pomodoroTimes, setPomodoroTimes] = useState({
+    focus: 0,
+    break: 0,
+    rest: 0,
+  });
+
+  const startTimer = () => {
+    if (!isActive) {
+      setActive(true);
+      intervalId.current = setInterval(() => {
+        setTime((prevState) => {
+          const time = prevState - 1;
+          proggress(time);
+          return time;
+        });
+      }, 100);
+    }
+  };
 
   const modalHandler = () => {
     setModal((prevState) => !prevState);
   };
 
   function getTimeValues(data) {
-    console.log(data);
+    setPomodoroTimes(data);
+    setTime(data.focus * 60);
   }
+
+  const stopTimer = () => {
+    setActive(false);
+    clearInterval(intervalId.current);
+  };
+
+  const formatTime = (timeInSeconds) => {
+    const minutes = Math.floor(timeInSeconds / 60);
+    // минуны ---> 300 ---> 5
+    const seconds = timeInSeconds % 60;
+
+    return `${minutes.toString().padStart(2, "0")}:${seconds
+      .toString()
+      .padStart(2, "0")}`;
+  };
+
+  function proggress(initialTime) {
+    const progresDiv = progressBar.current;
+    const percent = (initialTime / (5 * 60)) * 100;
+    progresDiv.style.width = `${percent}%`;
+  }
+
   return (
     <Container>
       {modal && (
@@ -26,12 +72,16 @@ export const Pomodoro = () => {
       <StyledTitle>Pomodoro</StyledTitle>
       <StyledDiv>
         <PomodoroMode />
-        <ProgressBar width="50%" />
+        <ProgressBar ref={progressBar} />
         <TimeViewWrapper>
-          <TimeView time="30:00" />
+          <TimeView time={formatTime(time)} />
         </TimeViewWrapper>
         <TimeViewWrapperExchanged>
-          <Button>Start</Button>
+          {isActive ? (
+            <Button onClick={stopTimer}>Stop</Button>
+          ) : (
+            <Button onClick={startTimer}>Start</Button>
+          )}
         </TimeViewWrapperExchanged>
         <PositionedButton>
           <Button icon onClick={modalHandler}>
