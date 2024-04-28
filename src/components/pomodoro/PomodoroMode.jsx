@@ -4,7 +4,7 @@ import { Intervals } from "../UI/Intervals";
 export const PomodoroMode = () => {
   return (
     <StyledDiv>
-      <Intervals>Focus</Intervals>
+      <Intervals active>Focus</Intervals>
       <Intervals>Break</Intervals>
       <Intervals>Rest</Intervals>
     </StyledDiv>

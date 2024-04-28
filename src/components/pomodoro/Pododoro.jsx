@@ -6,11 +6,11 @@ import ProgressBar from "./ProgressBar";
 import TimeView from "../UI/TimeView";
 import Button from "../UI/Button";
 import PomodoroForm from "./PomodoroForm";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export const Pomodoro = () => {
   const [modal, setModal] = useState(false);
-  const [time, setTime] = useState(5 * 60);
+  const [time, setTime] = useState(0);
   const [isActive, setActive] = useState(false);
   const progressBar = useRef();
 
@@ -25,17 +25,31 @@ export const Pomodoro = () => {
     initialInterval: 0,
   });
 
-  const startTimer = () => {
-    if (!isActive) {
-      setActive(true);
+  useEffect(() => {
+    if (isActive) {
       intervalId.current = setInterval(() => {
         setTime((prevState) => {
-          const time = prevState - 1;
-          proggress(time);
-          return time;
+          const updatedTime = prevState - 1;
+          proggress(updatedTime);
+
+          if (updatedTime <= 0) {
+            stopTimer();
+          }
+
+          return updatedTime;
         });
       }, 100);
+    } else {
+      clearInterval(intervalId.current);
     }
+
+    return () => {
+      clearInterval(intervalId.current);
+    };
+  }, [isActive]);
+
+  const startTimer = () => {
+    setActive(true);
   };
 
   const modalHandler = () => {
@@ -60,7 +74,6 @@ export const Pomodoro = () => {
 
   const formatTime = (timeInSeconds) => {
     const minutes = Math.floor(timeInSeconds / 60);
-    // минуны ---> 300 ---> 5
     const seconds = timeInSeconds % 60;
 
     return `${minutes.toString().padStart(2, "0")}:${seconds
@@ -70,7 +83,7 @@ export const Pomodoro = () => {
 
   function proggress(initialTime) {
     const progresDiv = progressBar.current;
-    const percent = (initialTime / (5 * 60)) * 100;
+    const percent = (initialTime / (1 * 60)) * 100;
     progresDiv.style.width = `${percent}%`;
   }
 
