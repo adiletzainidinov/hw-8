@@ -12,20 +12,31 @@ const PomodoroForm = ({ closeModal, onSubmit }) => {
   const focusRef = useRef(null);
   const breakRef = useRef(null);
   const restRef = useRef(null);
+  // new code for lesson 29.04.24
+  const autoStartBreaks = useRef(null);
+  const autoStartPomodoro = useRef(null);
+  const longBreakInterval = useRef(null);
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
     const focusValue = focusRef.current.value;
     const breakValue = breakRef.current.value;
     const restValue = restRef.current.value;
+    const autoStartValue = autoStartBreaks.current;
+    const autoPomodoroValue = autoStartPomodoro.current;
+    const longBreakValue = longBreakInterval.current.value;
     if (!focusValue && !breakValue && !restValue) {
       focusRef.current.focus();
       return;
     }
+
     onSubmit({
       focus: +focusValue,
       break: +breakValue,
       rest: +restValue,
+      autoStartBreaks: autoStartValue.checked,
+      autoStartPomodoro: autoPomodoroValue.checked,
+      interval: +longBreakValue,
     });
     closeModal();
   };
@@ -38,6 +49,20 @@ const PomodoroForm = ({ closeModal, onSubmit }) => {
           <StyledInput labelText="Focus" ref={focusRef} />
           <StyledInput labelText="Break" ref={breakRef} />
           <StyledInput labelText="Rest" ref={restRef} />
+          <StyledInput
+            labelText="Auto Start Breaks"
+            ref={autoStartBreaks}
+            type="checkbox"
+          />
+          <StyledInput
+            labelText="Auto Start Pomodoros"
+            ref={autoStartPomodoro}
+            type="checkbox"
+          />
+          <StyledInput
+            labelText="Long Break Interval"
+            ref={longBreakInterval}
+          />
         </StyledDiv>
         <div>
           <Button type="submit" onClick={onSubmitHandler}>

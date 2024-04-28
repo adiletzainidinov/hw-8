@@ -19,6 +19,10 @@ export const Pomodoro = () => {
     focus: 0,
     break: 0,
     rest: 0,
+    autoStartBreaks: false,
+    autoStartPomodoro: false,
+    interval: 0,
+    initialInterval: 0,
   });
 
   const startTimer = () => {
@@ -39,7 +43,13 @@ export const Pomodoro = () => {
   };
 
   function getTimeValues(data) {
-    setPomodoroTimes(data);
+    setPomodoroTimes((prevState) => {
+      return {
+        ...prevState,
+        data,
+        initialInterval: data.interval,
+      };
+    });
     setTime(data.focus * 60);
   }
 
