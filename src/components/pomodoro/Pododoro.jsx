@@ -45,7 +45,7 @@ export const Pomodoro = () => {
 
           return updatedTime;
         });
-      }, 100);
+      }, 1000);
     } else {
       clearInterval(intervalId.current);
     }
