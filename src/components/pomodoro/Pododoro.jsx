@@ -8,10 +8,13 @@ import Button from '../UI/Button';
 import PomodoroForm from './PomodoroForm';
 import { useEffect, useRef, useState } from 'react';
 import clockSoundFile from '../../audio/71600155dfdea36.mp3';
-import rainSound from '../../audio/soft-rain-ambient-111154.mp3';
+import rainSound from '../../audio/Neffex - Grateful.mp3';
+import AppModal from './../UI/Modal';
+import InputRef from '../UI/InputRef';
 
 export const Pomodoro = () => {
   const audioRain = useRef(null);
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const [modal, setModal] = useState(false);
   const [time, setTime] = useState(0);
   const [isActive, setActive] = useState(false);
@@ -134,6 +137,50 @@ export const Pomodoro = () => {
             <ButtonAudio onClick={playAudio}>PLay sound</ButtonAudio>
             <ButtonAudio onClick={pauseAudio}>Pause sound</ButtonAudio>
           </AudioButtons>
+          <SettingStyled
+            onClick={() => setSettingsOpen((prevState) => !prevState)}
+          >
+            Setting
+          </SettingStyled>
+          {settingsOpen && (
+            <AppModal>
+              <SettingWrapper>
+                <div>
+                  {' '}
+                  <InputRef
+                    labelText="Auto Start Breaks"
+                    type="checkbox"
+                    padding="checkbox"
+                    border="checkbox"
+                    borderRadius="checkbox"
+                  />
+                </div>
+                <div>
+                  <InputRef
+                    labelText="Auto Start Pomodoros"
+                    type="checkbox"
+                    padding="checkbox"
+                    border="checkbox"
+                    borderRadius="checkbox"
+                  />
+                </div>
+                <div>
+                  <InputRef
+                    labelText="Long Break Interval"
+                    type="number"
+                    padding="input"
+                    border="input"
+                    borderRadius="input"
+                  />
+                </div>
+                <ButtonSave
+                  onClick={() => setSettingsOpen((prevState) => !prevState)}
+                >
+                  Save
+                </ButtonSave>
+              </SettingWrapper>
+            </AppModal>
+          )}
           {isActive ? (
             <Button onClick={stopTimer}>Stop</Button>
           ) : (
@@ -149,6 +196,24 @@ export const Pomodoro = () => {
     </Container>
   );
 };
+
+const ButtonSave = styled.button`
+  margin: 0 auto;
+  padding: 7px 45px;
+  color: white;
+  border-radius: 10px;
+  border: none;
+  background-color: #2158bd;
+  font-size: 24px;
+  margin-top: 30px;
+`;
+
+const SettingWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 30px;
+`;
 
 const StyledTitle = styled(Title)`
   margin-top: 66px;
@@ -198,4 +263,18 @@ const AudioButtons = styled.div`
   flex-direction: column;
   gap: 10px;
   margin-right: 200px;
+`;
+
+const SettingStyled = styled.h3`
+  position: absolute;
+  bottom: 100px;
+  left: 310px;
+  color: black;
+  width: 120px;
+  height: 60px;
+  background-color: #abd443;
+  text-align: center;
+  padding: 15px 25px;
+  border-radius: 10px;
+  font-weight: 100;
 `;
